@@ -1,0 +1,237 @@
+/*
+ * shared.css
+ * ─────────────────────────────────────────────────────────────
+ * LCA ICT — Shared styles: design tokens, nav bar, theme toggle.
+ * Loaded by EVERY page alongside its own stylesheet.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+/* ── TOKENS: DARK ────────────────────────────────────────── */
+:root {
+  --bg:         #0d0f14;
+  --surface:    #161920;
+  --surface2:   #1e2230;
+  --border:     #2a2f42;
+  --accent:     #4fffb0;
+  --accent2:    #ff6b6b;
+  --accent3:    #6b8cff;
+  --text:       #e8eaf2;
+  --text-muted: #7a7f94;
+  --text-dim:   #4a4f64;
+  --shadow:     0 4px 20px rgba(0,0,0,0.4);
+  --radius:     8px;
+  --nav-bg:     rgba(13,15,20,0.97);
+  --nav-h:      54px;
+
+  --mono:    'IBM Plex Mono', monospace;
+  --sans:    'IBM Plex Sans', sans-serif;
+  --display: 'Syne', sans-serif;
+}
+
+/* ── TOKENS: LIGHT ───────────────────────────────────────── */
+[data-theme="light"] {
+  --bg:         #f2f4f8;
+  --surface:    #ffffff;
+  --surface2:   #e8eaf2;
+  --border:     #ced2e0;
+  --accent:     #0a7a50;
+  --accent2:    #c0392b;
+  --accent3:    #2d4eaa;
+  --text:       #1a1d2e;
+  --text-muted: #4a4f6a;
+  --text-dim:   #8890a8;
+  --shadow:     0 4px 20px rgba(0,0,0,0.08);
+  --nav-bg:     rgba(242,244,248,0.97);
+}
+
+/* ── RESET ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background:  var(--bg);
+  color:       var(--text);
+  font-family: var(--sans);
+  font-size:   15px;
+  line-height: 1.6;
+  min-height:  100vh;
+  transition:  background 0.25s, color 0.25s;
+  padding-top: var(--nav-h);
+}
+
+/* ── SITE NAV ────────────────────────────────────────────── */
+.site-nav {
+  position:      fixed;
+  top: 0; left: 0; right: 0;
+  height:        var(--nav-h);
+  z-index:       200;
+  background:    var(--nav-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition:    background 0.25s, border-color 0.25s;
+}
+
+.nav-inner {
+  max-width:   1280px;
+  margin:      0 auto;
+  height:      100%;
+  padding:     0 1.25rem;
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+}
+
+.nav-brand {
+  font-family:     var(--display);
+  font-size:       1.05rem;
+  font-weight:     800;
+  color:           var(--text);
+  text-decoration: none;
+  letter-spacing:  -0.02em;
+  flex-shrink:     0;
+  margin-right:    0.5rem;
+}
+.nav-brand-ict { color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap:     0.15rem;
+  flex:    1;
+}
+
+.nav-link {
+  font-family:     var(--mono);
+  font-size:       10.5px;
+  letter-spacing:  0.07em;
+  text-transform:  uppercase;
+  color:           var(--text-muted);
+  text-decoration: none;
+  padding:         0.3rem 0.6rem;
+  border-radius:   4px;
+  transition:      color 0.15s, background 0.15s;
+  white-space:     nowrap;
+}
+.nav-link:hover  { color: var(--text); background: var(--surface2); }
+.nav-link.active { color: var(--accent); background: rgba(79,255,176,0.08); }
+
+/* V-Team gets a special accent colour */
+.nav-link.vteam { color: var(--accent3); }
+[data-theme="light"] .nav-link.vteam { color: var(--accent3); }
+.nav-link.vteam:hover { color: var(--accent3); background: rgba(107,140,255,0.1); }
+
+/* Disabled / coming-soon links */
+.nav-disabled {
+  opacity:        0.35;
+  cursor:         default;
+  pointer-events: none;
+}
+
+/* ── THEME TOGGLE ────────────────────────────────────────── */
+.theme-toggle {
+  width:           34px;
+  height:          34px;
+  border-radius:   50%;
+  border:          1px solid var(--border);
+  background:      transparent;
+  color:           var(--text-muted);
+  cursor:          pointer;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  font-size:       15px;
+  transition:      all 0.2s;
+  flex-shrink:     0;
+  margin-left:     0.25rem;
+}
+.theme-toggle:hover { border-color: var(--accent); color: var(--accent); transform: rotate(20deg); }
+
+.theme-toggle .icon-dark  { display: block; }
+.theme-toggle .icon-light { display: none;  }
+[data-theme="light"] .theme-toggle .icon-dark  { display: none;  }
+[data-theme="light"] .theme-toggle .icon-light { display: block; }
+
+/* ── HAMBURGER ───────────────────────────────────────────── */
+.nav-hamburger {
+  display:       none;
+  background:    transparent;
+  border:        1px solid var(--border);
+  color:         var(--text-muted);
+  cursor:        pointer;
+  padding:       0.3rem 0.55rem;
+  border-radius: 4px;
+  font-size:     15px;
+  flex-shrink:   0;
+}
+
+/* ── PAGE HEADER ─────────────────────────────────────────── */
+.page-header {
+  max-width: 1200px;
+  margin:    0 auto;
+  padding:   2.25rem 1.5rem 1.25rem;
+  position:  relative;
+}
+
+.page-label {
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color:          var(--accent);
+  margin-bottom:  0.55rem;
+}
+
+.page-title {
+  font-family:    var(--display);
+  font-size:      clamp(1.9rem, 5vw, 3.2rem);
+  font-weight:    800;
+  line-height:    1.05;
+  letter-spacing: -0.02em;
+  color:          var(--text);
+}
+.page-title span { color: var(--accent); }
+
+.page-sub {
+  margin-top:  0.65rem;
+  color:       var(--text-muted);
+  font-weight: 300;
+  font-size:   0.9rem;
+  max-width:   480px;
+}
+
+/* ── UTILITY ─────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── SCROLLBAR ───────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── RESPONSIVE NAV ──────────────────────────────────────── */
+@media (max-width: 780px) {
+  .nav-hamburger { display: flex; }
+
+  .nav-links {
+    display:        none;
+    position:       absolute;
+    top:            var(--nav-h);
+    left: 0; right: 0;
+    background:     var(--nav-bg);
+    border-bottom:  1px solid var(--border);
+    flex-direction: column;
+    padding:        0.6rem 1.25rem 0.9rem;
+    gap:            0.2rem;
+    backdrop-filter: blur(12px);
+  }
+  .nav-links.open { display: flex; }
+
+  .nav-link {
+    font-size: 11.5px;
+    padding:   0.5rem 0.75rem;
+  }
+}
+
+/* ── PRINT RESET ─────────────────────────────────────────── */
+@media print {
+  body            { background: #fff !important; color: #000 !important; padding-top: 0; }
+  .site-nav       { display: none !important; }
+}
