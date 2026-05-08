@@ -1,0 +1,430 @@
+/*
+ * quiz.css
+ * ─────────────────────────────────────────────────────────────
+ * LCA ICT — Fill in the Blank Quiz styles.
+ * Requires shared.css for tokens + nav.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+/* ── SETUP PANEL ─────────────────────────────────────────── */
+.setup-panel {
+  max-width:      680px;
+  margin:         0 auto 2rem;
+  padding:        1.5rem;
+  background:     var(--surface);
+  border:         1px solid var(--border);
+  border-radius:  var(--radius);
+  width:          calc(100% - 3rem);
+}
+
+.setup-desc {
+  font-family:  var(--sans);
+  font-size:    14px;
+  color:        var(--text-muted);
+  font-weight:  300;
+  line-height:  1.65;
+}
+
+.setup-footer {
+  display:         flex;
+  justify-content: flex-end;
+  border-top:      1px solid var(--border);
+  padding-top:     1rem;
+  margin-top:      1.25rem;
+}
+
+/* ── SHARED BUTTONS ──────────────────────────────────────── */
+.btn-start {
+  background:    var(--accent);
+  color:         var(--bg);
+  border:        none;
+  border-radius: 6px;
+  padding:       0.6rem 1.4rem;
+  font-family:   var(--display);
+  font-size:     0.9rem;
+  font-weight:   700;
+  cursor:        pointer;
+  transition:    opacity 0.15s, transform 0.15s;
+  white-space:   nowrap;
+}
+.btn-start:hover { opacity: 0.87; transform: translateY(-1px); }
+
+.btn-ghost {
+  background:     transparent;
+  border:         1px solid var(--border);
+  color:          var(--text-muted);
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.05em;
+  padding:        0.4rem 0.9rem;
+  border-radius:  4px;
+  cursor:         pointer;
+  transition:     all 0.15s;
+  white-space:    nowrap;
+}
+.btn-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+
+.btn-check {
+  background:    transparent;
+  border:        2px solid var(--accent);
+  color:         var(--accent);
+  font-family:   var(--display);
+  font-size:     0.88rem;
+  font-weight:   700;
+  padding:       0.5rem 1.25rem;
+  border-radius: 6px;
+  cursor:        pointer;
+  transition:    all 0.15s;
+  white-space:   nowrap;
+  animation:     checkPulse 0.4s ease;
+}
+.btn-check:hover { background: var(--accent); color: var(--bg); }
+
+@keyframes checkPulse {
+  from { transform: scale(0.9); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* ── QUIZ AREA ───────────────────────────────────────────── */
+.quiz-area {
+  max-width: 800px;
+  margin:    0 auto;
+  padding:   0 1.5rem 3rem;
+  width:     100%;
+}
+
+.quiz-topbar {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  flex-wrap:       wrap;
+  gap:             0.75rem;
+  margin-bottom:   1.25rem;
+}
+
+.quiz-progress {
+  font-family: var(--mono);
+  font-size:   13px;
+  color:       var(--text-muted);
+}
+.quiz-progress span { color: var(--accent); font-weight: 700; }
+
+/* ── WORD BANK ───────────────────────────────────────────── */
+.word-bank-wrap {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       1rem 1.1rem;
+  margin-bottom: 1.5rem;
+  position:      sticky;
+  top:           62px; /* below nav */
+  z-index:       50;
+  backdrop-filter: blur(8px);
+}
+
+.word-bank-label {
+  font-family:    var(--mono);
+  font-size:      10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+  margin-bottom:  0.6rem;
+}
+
+.word-bank {
+  display:   flex;
+  flex-wrap: wrap;
+  gap:       0.5rem;
+  min-height: 36px;
+}
+
+/* Individual bank word chip */
+.bank-word {
+  font-family:    var(--mono);
+  font-size:      12px;
+  font-weight:    600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding:        0.35rem 0.85rem;
+  border-radius:  4px;
+  border:         1px solid var(--border);
+  background:     var(--surface2);
+  color:          var(--text);
+  cursor:         pointer;
+  transition:     all 0.15s;
+  user-select:    none;
+  -webkit-tap-highlight-color: transparent;
+}
+.bank-word:hover  { border-color: var(--accent3); color: var(--accent3); }
+.bank-word.selected {
+  background:   var(--accent3);
+  border-color: var(--accent3);
+  color:        #fff;
+  transform:    translateY(-2px);
+  box-shadow:   0 4px 12px rgba(107,140,255,0.3);
+}
+/* Used/placed words are hidden from bank */
+.bank-word.placed { display: none; }
+
+/* ── QUESTIONS LIST ──────────────────────────────────────── */
+.questions-list {
+  display:        flex;
+  flex-direction: column;
+  gap:            1rem;
+  list-style:     none;
+  padding:        0;
+  counter-reset:  question;
+}
+
+/* ── QUESTION ITEM ───────────────────────────────────────── */
+.question-item {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       1.1rem 1.25rem;
+  border-left:   3px solid var(--border);
+  transition:    border-color 0.2s;
+  counter-increment: question;
+}
+
+.question-item::before {
+  content:        counter(question);
+  font-family:    var(--mono);
+  font-size:      10px;
+  color:          var(--text-dim);
+  letter-spacing: 0.1em;
+  display:        block;
+  margin-bottom:  0.5rem;
+}
+
+/* Highlight when a word is selected — shows this is a valid drop target */
+.question-item.can-drop { border-left-color: var(--accent3); }
+
+/* Result states */
+.question-item.correct { border-left-color: #22c55e; }
+.question-item.wrong   { border-left-color: #ef4444; }
+
+/* Sentence text */
+.question-sentence {
+  font-family:  var(--sans);
+  font-size:    14.5px;
+  color:        var(--text);
+  font-weight:  300;
+  line-height:  1.75;
+  display:      inline;
+}
+
+/* ── BLANK ───────────────────────────────────────────────── */
+/*
+ * The blank is an inline element that sits inside the sentence.
+ * When empty it shows a dashed underline with a fixed width.
+ * When filled it shows the placed word as a chip.
+ */
+.blank {
+  display:        inline-flex;
+  align-items:    center;
+  justify-content: center;
+  min-width:      80px;
+  height:         28px;
+  border-radius:  4px;
+  border:         1.5px dashed var(--border);
+  background:     var(--surface2);
+  cursor:         pointer;
+  transition:     all 0.15s;
+  vertical-align: middle;
+  margin:         0 2px;
+  padding:        0 6px;
+  position:       relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.blank:empty::after {
+  content:        '___';
+  font-family:    var(--mono);
+  font-size:      11px;
+  color:          var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+/* Blank with a word inside it */
+.blank.filled {
+  border-style:  solid;
+  border-color:  var(--accent3);
+  background:    rgba(107,140,255,0.08);
+  min-width:     unset;
+}
+
+/* Hover on empty blank when a word is selected */
+.blank.can-drop:not(.filled):hover {
+  border-color: var(--accent3);
+  background:   rgba(107,140,255,0.12);
+}
+
+/* The word chip inside a blank */
+.blank-word {
+  font-family:    var(--mono);
+  font-size:      12px;
+  font-weight:    700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color:          var(--accent3);
+  white-space:    nowrap;
+}
+
+/* ── RESULT STATES (after checking) ─────────────────────── */
+.blank.result-correct {
+  border-color: #22c55e;
+  background:   rgba(34,197,94,0.1);
+}
+.blank.result-correct .blank-word { color: #22c55e; }
+
+.blank.result-wrong {
+  border-color: #ef4444;
+  background:   rgba(239,68,68,0.1);
+}
+.blank.result-wrong .blank-word {
+  color:           #ef4444;
+  text-decoration: line-through;
+}
+
+/* Correct answer shown after wrong attempt */
+.correct-answer {
+  display:        inline-flex;
+  align-items:    center;
+  margin-left:    6px;
+  font-family:    var(--mono);
+  font-size:      12px;
+  font-weight:    700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color:          #22c55e;
+  background:     rgba(34,197,94,0.1);
+  border:         1px solid rgba(34,197,94,0.3);
+  padding:        1px 8px;
+  border-radius:  3px;
+  white-space:    nowrap;
+  animation:      revealSlide 0.25s ease;
+}
+
+@keyframes revealSlide {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── RESULTS PANEL ───────────────────────────────────────── */
+.results-panel {
+  max-width: 720px;
+  margin:    0 auto;
+  padding:   0 1.5rem 3rem;
+  width:     100%;
+}
+
+.results-header {
+  text-align:    center;
+  padding:       1.75rem;
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+}
+
+.results-title {
+  font-family:    var(--display);
+  font-size:      1.8rem;
+  font-weight:    800;
+  color:          var(--text);
+  margin-bottom:  0.85rem;
+}
+
+.results-stats {
+  display:         flex;
+  gap:             2rem;
+  justify-content: center;
+  flex-wrap:       wrap;
+}
+
+.stat-item {
+  font-family: var(--mono);
+  font-size:   12px;
+  color:       var(--text-muted);
+  text-align:  center;
+}
+.stat-item strong {
+  display:       block;
+  font-family:   var(--display);
+  font-size:     1.9rem;
+  font-weight:   800;
+  line-height:   1;
+  margin-bottom: 3px;
+}
+.stat-correct strong { color: #22c55e; }
+.stat-wrong   strong { color: #ef4444; }
+.stat-pct     strong { color: var(--accent); }
+
+/* Revision summary */
+.summary-title {
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+  margin-bottom:  0.75rem;
+}
+
+.summary-list {
+  display:               grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap:                   0.6rem;
+  margin-bottom:         1.5rem;
+}
+
+.summary-card {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: 6px;
+  padding:       0.75rem 0.9rem;
+}
+.summary-card.was-correct { border-left: 3px solid #22c55e; }
+.summary-card.was-wrong   { border-left: 3px solid #ef4444; }
+
+.summary-word {
+  font-family:    var(--mono);
+  font-size:      12px;
+  font-weight:    700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom:  0.15rem;
+}
+.summary-card.was-correct .summary-word { color: #22c55e; }
+.summary-card.was-wrong   .summary-word { color: #ef4444; }
+
+.summary-full {
+  font-family:    var(--display);
+  font-size:      0.88rem;
+  font-weight:    700;
+  color:          var(--text);
+  margin-bottom:  0.25rem;
+}
+
+.summary-def {
+  font-size:   12px;
+  color:       var(--text-muted);
+  font-weight: 300;
+  line-height: 1.45;
+}
+
+.results-actions {
+  display:         flex;
+  gap:             0.75rem;
+  justify-content: center;
+  flex-wrap:       wrap;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 500px) {
+  .quiz-area    { padding: 0 1rem 2rem; }
+  .setup-panel  { width: calc(100% - 2rem); }
+  .blank        { min-width: 60px; height: 26px; }
+  .blank-word   { font-size: 11px; }
+  .bank-word    { font-size: 11px; padding: 0.3rem 0.65rem; }
+}

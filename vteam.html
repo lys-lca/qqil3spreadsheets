@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LCA ICT — V-Team</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="vteam.css">
+  <script>
+    (function(){
+      const t = localStorage.getItem('lca-ict-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', t ?? (d ? 'dark' : 'light'));
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html"><span class="nav-brand-ict">LCA</span> ICT</a>
+      <div class="nav-links" id="nav-links">
+        <a href="glossary.html"   class="nav-link">Glossary</a>
+        <a href="flashcards.html" class="nav-link">Flashcards</a>
+        <a href="wordsearch.html" class="nav-link">Wordsearch</a>
+        <a href="memory.html"     class="nav-link">Memory</a>
+        <a href="quiz.html"       class="nav-link">Quiz</a>
+        <a href="vteam.html"      class="nav-link vteam active">V-Team</a>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <span class="icon-dark">☀</span>
+        <span class="icon-light">☾</span>
+      </button>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- ── SETUP PANEL ── -->
+  <section class="vt-setup" id="vt-setup">
+    <div class="vt-setup-inner">
+
+      <div class="vt-setup-header">
+        <p class="page-label">Leaving Certificate Applied · ICT</p>
+        <h1 class="page-title">V-<span>Team</span></h1>
+        <p class="page-sub">Team competition — pick a square, answer the question, score points.</p>
+      </div>
+
+      <!-- Teams -->
+      <div class="setup-section">
+        <div class="setup-section-label">Teams <span class="setup-section-hint">(2–6)</span></div>
+        <div class="teams-grid" id="teams-grid"></div>
+        <div class="team-btns">
+          <button class="btn-ghost" id="btn-add-team">+ Add Team</button>
+          <button class="btn-ghost" id="btn-remove-team">− Remove Team</button>
+        </div>
+      </div>
+
+      <!-- Grid size -->
+      <div class="setup-section">
+        <div class="setup-section-label">Grid Size</div>
+        <div class="grid-size-btns">
+          <button class="grid-size-btn" data-size="16">
+            <span class="gsb-grid">4 × 4</span>
+            <span class="gsb-count">16 squares</span>
+          </button>
+          <button class="grid-size-btn active" data-size="25">
+            <span class="gsb-grid">5 × 5</span>
+            <span class="gsb-count">25 squares</span>
+          </button>
+          <button class="grid-size-btn" data-size="36">
+            <span class="gsb-grid">6 × 6</span>
+            <span class="gsb-count">36 squares</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="setup-footer">
+        <button class="btn-start" id="btn-start">Start Game →</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── GAME SCREEN ── -->
+  <section class="vt-game hidden" id="vt-game">
+
+    <!-- Left: scoreboard + turn indicator -->
+    <aside class="vt-sidebar" id="vt-sidebar">
+      <div class="sidebar-title">Scores</div>
+      <div class="scoreboard" id="scoreboard"></div>
+      <div class="turn-box" id="turn-box">
+        <div class="turn-label">Current Turn</div>
+        <div class="turn-team" id="turn-team">—</div>
+      </div>
+      <button class="btn-ghost btn-end-game" id="btn-end-game">End Game</button>
+    </aside>
+
+    <!-- Centre: grid -->
+    <main class="vt-main">
+      <div class="vt-grid" id="vt-grid"></div>
+    </main>
+
+  </section>
+
+  <!-- ── CARD OVERLAY ── -->
+  <!-- Shown full-screen when a square is clicked -->
+  <div class="card-overlay hidden" id="card-overlay">
+    <div class="card-overlay-inner">
+
+      <!-- QUESTION card -->
+      <div class="ov-card" id="ov-card">
+
+        <div class="ov-top">
+          <div class="ov-square-num" id="ov-square-num"></div>
+          <div class="ov-type-badge" id="ov-type-badge"></div>
+        </div>
+
+        <!-- Front: term/abbr -->
+        <div class="ov-front" id="ov-front">
+          <div class="ov-term" id="ov-term"></div>
+          <button class="btn-reveal" id="btn-reveal">Show Hint &amp; Answer ↓</button>
+        </div>
+
+        <!-- Revealed: hint + definition -->
+        <div class="ov-revealed hidden" id="ov-revealed">
+          <div class="ov-hint" id="ov-hint"></div>
+          <div class="ov-def"  id="ov-def"></div>
+        </div>
+
+      </div>
+
+      <!-- BONUS/PENALTY card -->
+      <div class="ov-special hidden" id="ov-special">
+        <div class="ov-special-icon" id="ov-special-icon"></div>
+        <div class="ov-special-title" id="ov-special-title"></div>
+        <div class="ov-special-points" id="ov-special-points"></div>
+        <div class="ov-special-team" id="ov-special-team"></div>
+      </div>
+
+      <!-- Action buttons (shown after reveal or for special squares) -->
+      <div class="ov-actions hidden" id="ov-actions">
+        <button class="btn-wrong-ans"   id="btn-wrong-ans">✗ Incorrect — next team</button>
+        <button class="btn-correct-ans" id="btn-correct-ans"></button>
+      </div>
+
+      <button class="btn-close-overlay" id="btn-close-overlay" title="Close">✕</button>
+
+    </div>
+  </div>
+
+  <!-- ── END GAME SCREEN ── -->
+  <section class="vt-end hidden" id="vt-end">
+    <div class="vt-end-inner">
+      <div class="end-trophy">🏆</div>
+      <h2 class="end-title" id="end-title"></h2>
+      <div class="end-podium" id="end-podium"></div>
+      <button class="btn-start" id="btn-play-again">Play Again</button>
+      <button class="btn-ghost"  id="btn-new-setup">Change Settings</button>
+    </div>
+  </section>
+
+  <script src="glossary-data.js"></script>
+  <script src="shared.js"></script>
+  <script src="vteam.js"></script>
+</body>
+</html>

@@ -1,0 +1,556 @@
+/*
+ * memory.css
+ * ─────────────────────────────────────────────────────────────
+ * LCA ICT — Memory Game styles.
+ * Requires shared.css for tokens + nav.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+/* ── SETUP PANEL ─────────────────────────────────────────── */
+.setup-panel {
+  max-width:      720px;
+  margin:         0 auto 2rem;
+  padding:        1.5rem;
+  background:     var(--surface);
+  border:         1px solid var(--border);
+  border-radius:  var(--radius);
+  width:          calc(100% - 3rem);
+}
+
+.setup-grid {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   1.25rem;
+  margin-bottom:         1.25rem;
+}
+
+.setup-group {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.5rem;
+}
+
+.setup-group-full { grid-column: 1 / -1; }
+
+.setup-label {
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+}
+
+.select-wrap { position: relative; }
+.select-wrap::after {
+  content:        '▾';
+  position:       absolute;
+  right:          11px;
+  top:            50%;
+  transform:      translateY(-50%);
+  color:          var(--text-muted);
+  pointer-events: none;
+  font-size:      12px;
+}
+
+select {
+  width:         100%;
+  background:    var(--surface2);
+  border:        1px solid var(--border);
+  border-radius: 6px;
+  padding:       0.5rem 2rem 0.5rem 0.8rem;
+  color:         var(--text);
+  font-family:   var(--mono);
+  font-size:     12px;
+  appearance:    none;
+  cursor:        pointer;
+  outline:       none;
+  transition:    border-color 0.2s;
+}
+select:focus { border-color: var(--accent); }
+
+.count-btns { display: flex; gap: 0.4rem; }
+
+.count-btn {
+  flex:           1;
+  padding:        0.5rem;
+  border-radius:  6px;
+  border:         1px solid var(--border);
+  background:     transparent;
+  color:          var(--text-muted);
+  font-family:    var(--mono);
+  font-size:      13px;
+  font-weight:    600;
+  cursor:         pointer;
+  transition:     all 0.15s;
+}
+.count-btn:hover  { border-color: var(--accent); color: var(--accent); }
+.count-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+/* ── TOGGLE OPTIONS ──────────────────────────────────────── */
+.toggle-opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap:     0.5rem;
+}
+
+.toggle-opt {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-start;
+  gap:            0.2rem;
+  padding:        0.75rem 1rem;
+  border-radius:  var(--radius);
+  border:         1px solid var(--border);
+  background:     var(--surface2);
+  cursor:         pointer;
+  transition:     all 0.15s;
+  text-align:     left;
+}
+.toggle-opt:hover  { border-color: var(--accent3); }
+.toggle-opt.active {
+  border-color: var(--accent);
+  background:   rgba(79,255,176,0.06);
+}
+[data-theme="light"] .toggle-opt.active { background: rgba(10,122,80,0.05); }
+
+.opt-name {
+  font-family:    var(--display);
+  font-size:      0.9rem;
+  font-weight:    700;
+  color:          var(--text);
+  letter-spacing: -0.01em;
+}
+.toggle-opt.active .opt-name { color: var(--accent); }
+
+.opt-desc {
+  font-family: var(--sans);
+  font-size:   12px;
+  color:       var(--text-muted);
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.setup-footer {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  border-top:      1px solid var(--border);
+  padding-top:     1rem;
+}
+
+.setup-count {
+  font-family: var(--mono);
+  font-size:   12px;
+  color:       var(--text-muted);
+}
+
+/* ── SHARED BUTTONS ──────────────────────────────────────── */
+.btn-start {
+  background:    var(--accent);
+  color:         var(--bg);
+  border:        none;
+  border-radius: 6px;
+  padding:       0.6rem 1.4rem;
+  font-family:   var(--display);
+  font-size:     0.9rem;
+  font-weight:   700;
+  cursor:        pointer;
+  transition:    opacity 0.15s, transform 0.15s;
+  white-space:   nowrap;
+}
+.btn-start:hover    { opacity: 0.87; transform: translateY(-1px); }
+.btn-start:disabled { opacity: 0.35; cursor: default; transform: none; }
+
+.btn-ghost {
+  background:     transparent;
+  border:         1px solid var(--border);
+  color:          var(--text-muted);
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.05em;
+  padding:        0.4rem 0.9rem;
+  border-radius:  4px;
+  cursor:         pointer;
+  transition:     all 0.15s;
+  white-space:    nowrap;
+}
+.btn-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+
+/* ── STUDY PHASE ─────────────────────────────────────────── */
+.study-phase {
+  max-width: 1100px;
+  margin:    0 auto;
+  padding:   0 1.5rem 2rem;
+}
+
+.study-header {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             1rem;
+  flex-wrap:       wrap;
+  margin-bottom:   1.25rem;
+  padding:         1rem 1.25rem;
+  background:      var(--surface);
+  border:          1px solid var(--border);
+  border-radius:   var(--radius);
+  border-left:     3px solid var(--accent3);
+}
+
+.study-title {
+  font-family:    var(--display);
+  font-size:      1.1rem;
+  font-weight:    700;
+  color:          var(--text);
+  margin-bottom:  0.2rem;
+}
+
+.study-sub {
+  font-size:   13px;
+  color:       var(--text-muted);
+  font-weight: 300;
+}
+
+.btn-hide {
+  background:    var(--accent3);
+  color:         #fff;
+  border:        none;
+  border-radius: 6px;
+  padding:       0.65rem 1.25rem;
+  font-family:   var(--display);
+  font-size:     0.9rem;
+  font-weight:   700;
+  cursor:        pointer;
+  transition:    opacity 0.15s, transform 0.15s;
+  white-space:   nowrap;
+  flex-shrink:   0;
+}
+.btn-hide:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* ── GAME AREA ───────────────────────────────────────────── */
+.game-area {
+  max-width: 1100px;
+  margin:    0 auto;
+  padding:   0 1.5rem 3rem;
+}
+
+.game-topbar {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  flex-wrap:       wrap;
+  gap:             1rem;
+  margin-bottom:   1.25rem;
+}
+
+.timer-wrap, .moves-wrap {
+  display:     flex;
+  align-items: baseline;
+  gap:         0.4rem;
+}
+
+.timer-label {
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+}
+
+.timer-display, .moves-display {
+  font-family: var(--display);
+  font-size:   1.4rem;
+  font-weight: 700;
+  color:       var(--text);
+  min-width:   2.5rem;
+}
+
+.pairs-wrap {
+  font-family: var(--mono);
+  font-size:   13px;
+  color:       var(--text-muted);
+}
+.pairs-wrap span { color: var(--accent); font-weight: 700; }
+
+/* ── MEMORY GRID ─────────────────────────────────────────── */
+.memory-grid {
+  display:               grid;
+  gap:                   0.65rem;
+  /* columns set by JS */
+}
+
+/* ── MEMORY CARD ─────────────────────────────────────────── */
+.mem-card {
+  position:      relative;
+  cursor:        pointer;
+  border-radius: var(--radius);
+  /* height set by JS */
+  perspective:   600px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mem-card-inner {
+  width:             100%;
+  height:            100%;
+  position:          relative;
+  transform-style:   preserve-3d;
+  transition:        transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius:     var(--radius);
+}
+
+/* Flipped state */
+.mem-card.flipped .mem-card-inner,
+.mem-card.matched .mem-card-inner {
+  transform: rotateY(180deg);
+}
+
+.mem-card-face {
+  position:              absolute;
+  inset:                 0;
+  border-radius:         var(--radius);
+  backface-visibility:   hidden;
+  -webkit-backface-visibility: hidden;
+  display:               flex;
+  flex-direction:        column;
+  align-items:           center;
+  justify-content:       center;
+  padding:               0.75rem;
+  text-align:            center;
+  overflow:              hidden;
+}
+
+/* Back face (hidden side) */
+.mem-card-back {
+  background:   var(--surface2);
+  border:       1px solid var(--border);
+  box-shadow:   var(--shadow);
+  transition:   background 0.15s;
+}
+
+.mem-card:not(.flipped):not(.matched) .mem-card-back:hover {
+  background: var(--surface);
+  border-color: var(--accent3);
+}
+
+.card-back-pattern {
+  font-size:      1.8rem;
+  opacity:        0.12;
+  user-select:    none;
+  letter-spacing: -0.05em;
+}
+
+/* Front face (shown side) — rotated so it's hidden by default */
+.mem-card-front {
+  background: var(--surface);
+  border:     1px solid var(--border);
+  box-shadow: var(--shadow);
+  transform:  rotateY(180deg);
+  gap:        0.35rem;
+}
+
+/* Word card */
+.mem-card-front.type-word {
+  border-left: 3px solid var(--accent3);
+}
+
+/* Definition card */
+.mem-card-front.type-def {
+  border-left: 3px solid var(--accent);
+  justify-content: flex-start;
+  padding:     0.65rem 0.75rem;
+  text-align:  left;
+}
+
+.mem-word-label {
+  font-family:    var(--mono);
+  font-size:      9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+  margin-bottom:  0.15rem;
+}
+
+.mem-word-text {
+  font-family:    var(--display);
+  font-size:      clamp(1rem, 3.5vw, 1.5rem);
+  font-weight:    800;
+  color:          var(--text);
+  letter-spacing: -0.02em;
+  line-height:    1.1;
+}
+
+.mem-def-label {
+  font-family:    var(--mono);
+  font-size:      9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+  margin-bottom:  0.2rem;
+  flex-shrink:    0;
+}
+
+.mem-def-text {
+  font-family:  var(--sans);
+  font-size:    clamp(10px, 1.8vw, 12px);
+  color:        var(--text-muted);
+  font-weight:  300;
+  line-height:  1.45;
+  overflow:     hidden;
+  display:      -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  width:        100%;
+}
+
+/* Study phase: face-up cards — front visible without rotation */
+.study-phase .mem-card-inner { transform: rotateY(180deg); }
+.study-phase .mem-card        { cursor: default; }
+
+/* Matched state */
+.mem-card.matched .mem-card-front {
+  border-color: var(--match-color, #22c55e) !important;
+  background:   color-mix(in srgb, var(--match-color, #22c55e) 8%, var(--surface));
+}
+[data-theme="light"] .mem-card.matched .mem-card-front {
+  background: color-mix(in srgb, var(--match-color, #22c55e) 6%, #fff);
+}
+
+/* Wrong flash */
+.mem-card.wrong .mem-card-front {
+  border-color: #ef4444 !important;
+  background:   rgba(239,68,68,0.1);
+  transition:   background 0.15s, border-color 0.15s;
+}
+
+/* ── MATCH COLOURS (10 distinct, set via --match-color) ──── */
+
+/* ── COMPLETION PANEL ────────────────────────────────────── */
+.completion-panel {
+  max-width: 720px;
+  margin:    0 auto;
+  padding:   0 1.5rem 3rem;
+  width:     100%;
+}
+
+.completion-inner {
+  text-align:    center;
+  padding:       2rem;
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+}
+
+.completion-icon {
+  font-size:     3rem;
+  margin-bottom: 0.5rem;
+  line-height:   1;
+}
+
+.completion-title {
+  font-family:    var(--display);
+  font-size:      2rem;
+  font-weight:    800;
+  color:          var(--text);
+  margin-bottom:  0.85rem;
+}
+
+.completion-stats {
+  display:         flex;
+  gap:             2rem;
+  justify-content: center;
+  flex-wrap:       wrap;
+  font-family:     var(--mono);
+  font-size:       12px;
+  color:           var(--text-muted);
+}
+
+.completion-stat strong {
+  display:       block;
+  font-family:   var(--display);
+  font-size:     1.8rem;
+  font-weight:   800;
+  color:         var(--accent);
+  line-height:   1;
+  margin-bottom: 3px;
+}
+
+/* Revision summary */
+.summary-title {
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+  margin-bottom:  0.75rem;
+}
+
+.summary-list {
+  display:               grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap:                   0.6rem;
+  margin-bottom:         1.5rem;
+}
+
+.summary-card {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: 6px;
+  padding:       0.75rem 0.9rem;
+  border-left:   3px solid var(--accent);
+}
+
+.summary-word {
+  font-family:    var(--mono);
+  font-size:      12px;
+  font-weight:    700;
+  color:          var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom:  0.15rem;
+}
+
+.summary-full {
+  font-family:    var(--display);
+  font-size:      0.88rem;
+  font-weight:    700;
+  color:          var(--text);
+  margin-bottom:  0.25rem;
+}
+
+.summary-def {
+  font-size:   12px;
+  color:       var(--text-muted);
+  font-weight: 300;
+  line-height: 1.45;
+}
+
+.completion-actions {
+  display:         flex;
+  gap:             0.75rem;
+  justify-content: center;
+  flex-wrap:       wrap;
+}
+
+/* ── ANIMATIONS ──────────────────────────────────────────── */
+@keyframes matchPop {
+  0%   { transform: rotateY(180deg) scale(1); }
+  50%  { transform: rotateY(180deg) scale(1.06); }
+  100% { transform: rotateY(180deg) scale(1); }
+}
+
+.mem-card.matched .mem-card-inner {
+  animation: matchPop 0.3s ease 0.1s;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .toggle-opts  { grid-template-columns: 1fr; }
+  .setup-grid   { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 420px) {
+  .setup-panel  { width: calc(100% - 2rem); }
+  .study-phase,
+  .game-area    { padding: 0 1rem 2rem; }
+}

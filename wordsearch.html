@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LCA ICT — Wordsearch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="wordsearch.css">
+  <script>
+    (function(){
+      const t = localStorage.getItem('lca-ict-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', t ?? (d ? 'dark' : 'light'));
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html"><span class="nav-brand-ict">LCA</span> ICT</a>
+      <div class="nav-links" id="nav-links">
+        <a href="glossary.html"    class="nav-link">Glossary</a>
+        <a href="flashcards.html"  class="nav-link">Flashcards</a>
+        <a href="wordsearch.html"  class="nav-link active">Wordsearch</a>
+        <a href="memory.html"      class="nav-link">Memory</a>
+        <a href="quiz.html"        class="nav-link">Quiz</a>
+        <a href="vteam.html"       class="nav-link">V-Team</a>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <span class="icon-dark">☀</span>
+        <span class="icon-light">☾</span>
+      </button>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- ── PAGE HEADER ── -->
+  <header class="page-header">
+    <p class="page-label">Leaving Certificate Applied · ICT</p>
+    <h1 class="page-title">Word<span>search</span></h1>
+    <p class="page-sub">Find the hidden words — the clues tell you what to look for.</p>
+  </header>
+
+  <!-- ── SETUP PANEL ── -->
+  <section class="setup-panel" id="setup-panel">
+
+    <div class="setup-grid">
+
+      <!-- Category -->
+      <div class="setup-group">
+        <label class="setup-label" for="cat-select">Category</label>
+        <div class="select-wrap">
+          <select id="cat-select">
+            <option value="all">All Categories</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Word count -->
+      <div class="setup-group">
+        <label class="setup-label">Words</label>
+        <div class="count-btns">
+          <button class="count-btn" data-count="8">8</button>
+          <button class="count-btn active" data-count="12">12</button>
+          <button class="count-btn" data-count="16">16</button>
+        </div>
+      </div>
+
+      <!-- Clue mode -->
+      <div class="setup-group setup-group-full">
+        <label class="setup-label">Clue Mode</label>
+        <div class="toggle-opts">
+          <button class="toggle-opt active" data-clue="word">
+            <span class="opt-name">Word</span>
+            <span class="opt-desc">The word is shown. Find it in the grid.</span>
+          </button>
+          <button class="toggle-opt" data-clue="definition">
+            <span class="opt-name">Definition</span>
+            <span class="opt-desc">The meaning is shown. Work out the word, then find it.</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Direction mode -->
+      <div class="setup-group setup-group-full">
+        <label class="setup-label">Direction</label>
+        <div class="toggle-opts">
+          <button class="toggle-opt active" data-dir="simple">
+            <span class="opt-name">Simple</span>
+            <span class="opt-desc">Words go right or down only.</span>
+          </button>
+          <button class="toggle-opt" data-dir="complex">
+            <span class="opt-name">Complex</span>
+            <span class="opt-desc">Words can go any direction, including backwards and diagonal.</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="setup-footer">
+      <span class="setup-count" id="setup-count">— words available</span>
+      <button class="btn-start" id="btn-start">Generate →</button>
+    </div>
+
+  </section>
+
+  <!-- ── GAME AREA ── -->
+  <section class="game-area hidden" id="game-area">
+
+    <!-- Top bar: timer + progress + new game -->
+    <div class="game-topbar">
+      <div class="timer-wrap">
+        <span class="timer-label">Time</span>
+        <span class="timer-display" id="timer-display">0:00</span>
+      </div>
+      <div class="found-progress">
+        <span id="found-count">0</span> / <span id="total-count">0</span> found
+      </div>
+      <button class="btn-ghost" id="btn-new-game">⊞ New game</button>
+    </div>
+
+    <!-- Main layout: grid + clues -->
+    <div class="game-layout" id="game-layout">
+
+      <!-- Grid -->
+      <div class="grid-wrap">
+        <div class="ws-grid" id="ws-grid"></div>
+      </div>
+
+      <!-- Clues list -->
+      <div class="clues-wrap">
+        <div class="clues-header">
+          <span class="clues-title" id="clues-title">Words to find</span>
+        </div>
+        <ul class="clues-list" id="clues-list"></ul>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ── COMPLETION PANEL ── -->
+  <section class="completion-panel hidden" id="completion-panel">
+
+    <div class="completion-inner">
+      <div class="completion-icon">✓</div>
+      <h2 class="completion-title">Puzzle Complete!</h2>
+      <div class="completion-stats" id="completion-stats"></div>
+    </div>
+
+    <div class="completion-words" id="completion-words"></div>
+
+    <div class="completion-actions">
+      <button class="btn-start" id="btn-play-again">Play Again</button>
+      <button class="btn-ghost" id="btn-change-settings">Change Settings</button>
+    </div>
+
+  </section>
+
+  <script src="glossary-data.js"></script>
+  <script src="shared.js"></script>
+  <script src="wordsearch.js"></script>
+</body>
+</html>

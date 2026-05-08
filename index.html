@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LCA ICT — Revision Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="index.css">
+  <script>
+    (function(){
+      const t = localStorage.getItem('lca-ict-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', t ?? (d ? 'dark' : 'light'));
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html"><span class="nav-brand-ict">LCA</span> ICT</a>
+      <div class="nav-links" id="nav-links">
+        <a href="glossary.html"   class="nav-link">Glossary</a>
+        <a href="flashcards.html" class="nav-link">Flashcards</a>
+        <a href="wordsearch.html" class="nav-link">Wordsearch</a>
+        <a href="memory.html"     class="nav-link">Memory</a>
+        <a href="quiz.html"       class="nav-link">Quiz</a>
+        <a href="vteam.html"      class="nav-link vteam">V-Team</a>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <span class="icon-dark">☀</span>
+        <span class="icon-light">☾</span>
+      </button>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="hero-label">Leaving Certificate Applied</p>
+      <h1 class="hero-title">
+        ICT <span>Revision</span><br>Hub
+      </h1>
+      <p class="hero-sub">
+        Everything you need to study Information &amp; Communication Technology.
+        Use the glossary to look things up, then test yourself with the games.
+      </p>
+      <a href="glossary.html" class="btn-hero-primary">Browse Glossary →</a>
+    </div>
+    <div class="hero-deco" aria-hidden="true">
+      <div class="deco-ring deco-ring-1"></div>
+      <div class="deco-ring deco-ring-2"></div>
+      <div class="deco-ring deco-ring-3"></div>
+    </div>
+  </header>
+
+  <!-- ── SECTION: REFERENCE ── -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="section-title">
+        <span class="section-tag">Reference</span>
+        Look it up
+      </h2>
+      <div class="cards-row">
+
+        <a href="glossary.html" class="hub-card">
+          <div class="hub-card-icon">📖</div>
+          <div class="hub-card-body">
+            <h3 class="hub-card-title">Glossary</h3>
+            <p class="hub-card-desc">
+              Browse all 130+ ICT terms and abbreviations with full definitions,
+              category filters and A–Z navigation.
+            </p>
+          </div>
+          <div class="hub-card-arrow">→</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION: SOLO GAMES ── -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <h2 class="section-title">
+        <span class="section-tag">Study Games</span>
+        Practice on your own
+      </h2>
+      <div class="cards-row">
+
+        <a href="flashcards.html" class="hub-card">
+          <div class="hub-card-icon">🃏</div>
+          <div class="hub-card-body">
+            <h3 class="hub-card-title">Flashcards</h3>
+            <p class="hub-card-desc">
+              Flip cards, reveal answers and mark yourself.
+              10 random cards or browse a full category. Tracks hints used.
+            </p>
+          </div>
+          <div class="hub-card-arrow">→</div>
+        </a>
+
+        <a href="wordsearch.html" class="hub-card">
+          <div class="hub-card-icon">🔍</div>
+          <div class="hub-card-body">
+            <h3 class="hub-card-title">Wordsearch</h3>
+            <p class="hub-card-desc">
+              Find hidden ICT terms in a grid. Choose simple or complex directions,
+              and word or definition clues.
+            </p>
+          </div>
+          <div class="hub-card-arrow">→</div>
+        </a>
+
+        <a href="memory.html" class="hub-card">
+          <div class="hub-card-icon">🧠</div>
+          <div class="hub-card-body">
+            <h3 class="hub-card-title">Memory Game</h3>
+            <p class="hub-card-desc">
+              Match each term with its definition. Study the cards first in Simple mode,
+              or dive straight in on Complex.
+            </p>
+          </div>
+          <div class="hub-card-arrow">→</div>
+        </a>
+
+        <a href="quiz.html" class="hub-card">
+          <div class="hub-card-icon">✏️</div>
+          <div class="hub-card-body">
+            <h3 class="hub-card-title">Fill the Blanks</h3>
+            <p class="hub-card-desc">
+              Ten definitions, ten missing words. Drag from the word bank
+              into the gaps and check all answers at the end.
+            </p>
+          </div>
+          <div class="hub-card-arrow">→</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION: CLASS GAME ── -->
+  <section class="section">
+    <div class="section-inner">
+      <h2 class="section-title">
+        <span class="section-tag vteam-tag">Class Competition</span>
+        Play as a team
+      </h2>
+      <div class="cards-row">
+
+        <a href="vteam.html" class="hub-card hub-card-vteam">
+          <div class="hub-card-icon">🏆</div>
+          <div class="hub-card-body">
+            <h3 class="hub-card-title">V-Team</h3>
+            <p class="hub-card-desc">
+              Up to 6 teams compete on a number grid. Click a square,
+              answer the question and score points — or hit a bonus or penalty!
+              Teacher-controlled on the projector.
+            </p>
+          </div>
+          <div class="hub-card-arrow">→</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>LCA ICT Revision Hub · Ms N Cahillane</span>
+      <span class="footer-dot">·</span>
+      <span>Last updated 2025</span>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+</body>
+</html>

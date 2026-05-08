@@ -1,0 +1,710 @@
+/*
+ * vteam.css
+ * ─────────────────────────────────────────────────────────────
+ * LCA ICT — V-Team competition game styles.
+ * Desktop-optimised (projector / teacher screen).
+ * Requires shared.css for tokens + nav.
+ * ─────────────────────────────────────────────────────────────
+ */
+
+/* ── TEAM ACCENT COLOURS ─────────────────────────────────── */
+:root {
+  --t1: #4fffb0;  /* green  */
+  --t2: #6b8cff;  /* blue   */
+  --t3: #ff9f6b;  /* orange */
+  --t4: #ff6b6b;  /* red    */
+  --t5: #c084fc;  /* purple */
+  --t6: #38bdf8;  /* cyan   */
+}
+
+/* ── SETUP ───────────────────────────────────────────────── */
+.vt-setup {
+  min-height:  calc(100vh - var(--nav-h));
+  display:     flex;
+  align-items: center;
+  justify-content: center;
+  padding:     2rem 1.5rem;
+}
+
+.vt-setup-inner {
+  width:         100%;
+  max-width:     640px;
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       2rem;
+  display:       flex;
+  flex-direction: column;
+  gap:           1.75rem;
+}
+
+.vt-setup-header .page-title { font-size: clamp(2rem, 4vw, 3rem); }
+
+/* Section */
+.setup-section {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.75rem;
+}
+
+.setup-section-label {
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+  display:        flex;
+  align-items:    center;
+  gap:            0.5rem;
+}
+
+.setup-section-hint {
+  font-size:   10px;
+  color:       var(--text-dim);
+  font-style:  italic;
+}
+
+/* Teams grid */
+.teams-grid {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   0.6rem;
+}
+
+.team-input-wrap {
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+}
+
+.team-color-dot {
+  width:         12px;
+  height:        12px;
+  border-radius: 50%;
+  flex-shrink:   0;
+}
+
+.team-name-input {
+  flex:          1;
+  background:    var(--surface2);
+  border:        1px solid var(--border);
+  border-radius: 6px;
+  padding:       0.5rem 0.75rem;
+  color:         var(--text);
+  font-family:   var(--sans);
+  font-size:     13px;
+  outline:       none;
+  transition:    border-color 0.2s;
+  width:         100%;
+}
+.team-name-input:focus { border-color: var(--accent); }
+
+.team-btns {
+  display: flex;
+  gap:     0.5rem;
+}
+
+/* Grid size buttons */
+.grid-size-btns {
+  display: flex;
+  gap:     0.6rem;
+}
+
+.grid-size-btn {
+  flex:           1;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            0.2rem;
+  padding:        0.85rem 0.5rem;
+  border-radius:  var(--radius);
+  border:         1px solid var(--border);
+  background:     var(--surface2);
+  cursor:         pointer;
+  transition:     all 0.15s;
+}
+.grid-size-btn:hover  { border-color: var(--accent3); }
+.grid-size-btn.active {
+  border-color: var(--accent);
+  background:   rgba(79,255,176,0.07);
+}
+
+.gsb-grid {
+  font-family:    var(--display);
+  font-size:      1.1rem;
+  font-weight:    800;
+  color:          var(--text);
+}
+.grid-size-btn.active .gsb-grid { color: var(--accent); }
+
+.gsb-count {
+  font-family: var(--mono);
+  font-size:   10px;
+  color:       var(--text-muted);
+}
+
+/* Setup footer */
+.setup-footer {
+  border-top:  1px solid var(--border);
+  padding-top: 1.25rem;
+  display:     flex;
+  justify-content: flex-end;
+}
+
+/* ── SHARED BUTTONS ──────────────────────────────────────── */
+.btn-start {
+  background:    var(--accent);
+  color:         var(--bg);
+  border:        none;
+  border-radius: 6px;
+  padding:       0.65rem 1.6rem;
+  font-family:   var(--display);
+  font-size:     0.95rem;
+  font-weight:   700;
+  cursor:        pointer;
+  transition:    opacity 0.15s, transform 0.15s;
+}
+.btn-start:hover { opacity: 0.87; transform: translateY(-1px); }
+
+.btn-ghost {
+  background:     transparent;
+  border:         1px solid var(--border);
+  color:          var(--text-muted);
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.05em;
+  padding:        0.4rem 0.9rem;
+  border-radius:  4px;
+  cursor:         pointer;
+  transition:     all 0.15s;
+  white-space:    nowrap;
+}
+.btn-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+
+/* ── GAME SCREEN ─────────────────────────────────────────── */
+.vt-game {
+  display:    grid;
+  grid-template-columns: 220px 1fr;
+  height:     calc(100vh - var(--nav-h));
+  overflow:   hidden;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────── */
+.vt-sidebar {
+  background:     var(--surface);
+  border-right:   1px solid var(--border);
+  display:        flex;
+  flex-direction: column;
+  padding:        1.25rem 1rem;
+  gap:            1rem;
+  overflow-y:     auto;
+}
+
+.sidebar-title {
+  font-family:    var(--mono);
+  font-size:      10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+}
+
+/* ── SCOREBOARD ──────────────────────────────────────────── */
+.scoreboard {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.4rem;
+  flex:           1;
+}
+
+.score-row {
+  display:       grid;
+  grid-template-columns: auto 1fr auto;
+  align-items:   center;
+  gap:           0.5rem;
+  padding:       0.55rem 0.75rem;
+  border-radius: 6px;
+  border:        1px solid transparent;
+  transition:    all 0.2s;
+}
+
+/* Active turn */
+.score-row.active-turn {
+  border-color: var(--team-color);
+  background:   color-mix(in srgb, var(--team-color) 10%, var(--surface));
+  box-shadow:   0 0 0 1px var(--team-color);
+}
+
+.score-dot {
+  width:         10px;
+  height:        10px;
+  border-radius: 50%;
+  flex-shrink:   0;
+  background:    var(--team-color);
+}
+
+.score-name {
+  font-family:    var(--sans);
+  font-size:      13px;
+  font-weight:    500;
+  color:          var(--text);
+  white-space:    nowrap;
+  overflow:       hidden;
+  text-overflow:  ellipsis;
+}
+
+.score-val {
+  font-family: var(--display);
+  font-size:   1.1rem;
+  font-weight: 800;
+  color:       var(--team-color);
+  min-width:   2.5rem;
+  text-align:  right;
+}
+
+/* Leading team badge */
+.score-row.leading .score-name::after {
+  content:      ' 👑';
+  font-size:    11px;
+}
+
+/* ── TURN BOX ────────────────────────────────────────────── */
+.turn-box {
+  background:    var(--surface2);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       0.75rem;
+  text-align:    center;
+}
+
+.turn-label {
+  font-family:    var(--mono);
+  font-size:      10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+  margin-bottom:  0.3rem;
+}
+
+.turn-team {
+  font-family:    var(--display);
+  font-size:      1.1rem;
+  font-weight:    800;
+  color:          var(--accent);
+  transition:     color 0.2s;
+}
+
+.btn-end-game {
+  margin-top: auto;
+  width:      100%;
+  text-align: center;
+}
+
+/* ── MAIN GRID AREA ──────────────────────────────────────── */
+.vt-main {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  padding:         1.5rem;
+  background:      var(--bg);
+  overflow:        auto;
+}
+
+/* ── QUESTION GRID ───────────────────────────────────────── */
+.vt-grid {
+  display: grid;
+  gap:     0.6rem;
+  /* grid-template-columns set by JS */
+}
+
+/* ── GRID SQUARE ─────────────────────────────────────────── */
+.vt-square {
+  width:           100%;
+  aspect-ratio:    1;
+  border-radius:   var(--radius);
+  border:          1px solid var(--border);
+  background:      var(--surface);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  cursor:          pointer;
+  transition:      all 0.15s;
+  position:        relative;
+  user-select:     none;
+  box-shadow:      var(--shadow);
+}
+
+.vt-square:hover:not(.used) {
+  border-color: var(--accent3);
+  transform:    translateY(-2px);
+  box-shadow:   0 6px 20px rgba(0,0,0,0.3);
+}
+
+.sq-number {
+  font-family: var(--display);
+  font-size:   clamp(1.2rem, 3vw, 2rem);
+  font-weight: 800;
+  color:       var(--text);
+}
+
+/* Used squares */
+.vt-square.used {
+  opacity:    0.3;
+  cursor:     default;
+  transform:  none !important;
+  box-shadow: none;
+}
+
+/* Bonus square — subtle star accent (no content hint) */
+.vt-square.type-bonus:not(.used) {
+  border-color: rgba(79,255,176,0.2);
+}
+
+/* Penalty square — subtle red accent */
+.vt-square.type-penalty:not(.used) {
+  border-color: rgba(239,68,68,0.2);
+}
+
+/* ── CARD OVERLAY ────────────────────────────────────────── */
+.card-overlay {
+  position:        fixed;
+  inset:           0;
+  background:      rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  z-index:         500;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  padding:         1.5rem;
+  animation:       overlayIn 0.2s ease;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.card-overlay-inner {
+  width:         100%;
+  max-width:     680px;
+  position:      relative;
+  display:       flex;
+  flex-direction: column;
+  gap:           0.75rem;
+}
+
+/* ── QUESTION CARD ───────────────────────────────────────── */
+.ov-card {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       2rem;
+  display:       flex;
+  flex-direction: column;
+  gap:           1.25rem;
+  min-height:    260px;
+  animation:     cardIn 0.25s ease;
+  box-shadow:    0 20px 60px rgba(0,0,0,0.5);
+}
+
+@keyframes cardIn {
+  from { transform: scale(0.94) translateY(10px); opacity: 0; }
+  to   { transform: scale(1)    translateY(0);    opacity: 1; }
+}
+
+.ov-top {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+}
+
+.ov-square-num {
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.12em;
+  color:          var(--text-dim);
+}
+
+.ov-type-badge {
+  font-family:    var(--mono);
+  font-size:      10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding:        2px 8px;
+  border-radius:  3px;
+}
+.ov-type-badge.type-acronym {
+  color:      var(--accent3);
+  border:     1px solid rgba(107,140,255,0.3);
+  background: rgba(107,140,255,0.08);
+}
+.ov-type-badge.type-concept {
+  color:      var(--text-dim);
+  border:     1px solid var(--border);
+}
+
+.ov-front {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            1.5rem;
+  flex:           1;
+  justify-content: center;
+}
+
+.ov-term {
+  font-family:    var(--display);
+  font-size:      clamp(2rem, 6vw, 3.5rem);
+  font-weight:    800;
+  color:          var(--text);
+  letter-spacing: -0.02em;
+  text-align:     center;
+}
+
+.btn-reveal {
+  background:    var(--accent);
+  color:         var(--bg);
+  border:        none;
+  border-radius: 6px;
+  padding:       0.7rem 1.75rem;
+  font-family:   var(--display);
+  font-size:     1rem;
+  font-weight:   700;
+  cursor:        pointer;
+  transition:    opacity 0.15s, transform 0.15s;
+}
+.btn-reveal:hover { opacity: 0.87; transform: translateY(-1px); }
+
+/* Revealed section */
+.ov-revealed {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.6rem;
+  animation:      revealDown 0.25s ease;
+}
+
+@keyframes revealDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ov-hint {
+  font-family:   var(--display);
+  font-size:     1.15rem;
+  font-weight:   700;
+  color:         var(--accent);
+  border-left:   3px solid var(--accent);
+  padding-left:  0.75rem;
+}
+
+.ov-def {
+  font-family:  var(--sans);
+  font-size:    15px;
+  color:        var(--text);
+  font-weight:  300;
+  line-height:  1.65;
+  border-left:  3px solid var(--border);
+  padding-left: 0.75rem;
+}
+
+/* ── SPECIAL CARD (bonus/penalty) ────────────────────────── */
+.ov-special {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       2.5rem 2rem;
+  display:       flex;
+  flex-direction: column;
+  align-items:   center;
+  gap:           0.75rem;
+  min-height:    260px;
+  justify-content: center;
+  box-shadow:    0 20px 60px rgba(0,0,0,0.5);
+  animation:     cardIn 0.25s ease;
+}
+
+.ov-special-icon {
+  font-size:     4rem;
+  line-height:   1;
+}
+
+.ov-special-title {
+  font-family:    var(--display);
+  font-size:      2rem;
+  font-weight:    800;
+  letter-spacing: -0.02em;
+}
+.ov-special-title.bonus   { color: var(--accent); }
+.ov-special-title.penalty { color: #ef4444; }
+
+.ov-special-points {
+  font-family:    var(--display);
+  font-size:      3rem;
+  font-weight:    800;
+  line-height:    1;
+}
+.ov-special-points.bonus   { color: var(--accent); }
+.ov-special-points.penalty { color: #ef4444; }
+
+.ov-special-team {
+  font-family:  var(--mono);
+  font-size:    13px;
+  color:        var(--text-muted);
+  text-align:   center;
+}
+
+/* ── OVERLAY ACTION BUTTONS ──────────────────────────────── */
+.ov-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap:     0.6rem;
+}
+
+.btn-wrong-ans {
+  padding:       0.75rem;
+  border-radius: 6px;
+  border:        2px solid rgba(239,68,68,0.3);
+  background:    rgba(239,68,68,0.08);
+  color:         #ef4444;
+  font-family:   var(--display);
+  font-size:     0.9rem;
+  font-weight:   700;
+  cursor:        pointer;
+  transition:    all 0.15s;
+}
+.btn-wrong-ans:hover { background: rgba(239,68,68,0.16); border-color: #ef4444; }
+
+.btn-correct-ans {
+  padding:       0.75rem;
+  border-radius: 6px;
+  border:        2px solid rgba(34,197,94,0.3);
+  background:    rgba(34,197,94,0.08);
+  color:         #22c55e;
+  font-family:   var(--display);
+  font-size:     0.9rem;
+  font-weight:   700;
+  cursor:        pointer;
+  transition:    all 0.15s;
+}
+.btn-correct-ans:hover { background: rgba(34,197,94,0.16); border-color: #22c55e; }
+
+/* Close button */
+.btn-close-overlay {
+  position:      absolute;
+  top:           -0.5rem;
+  right:         -0.5rem;
+  width:         32px;
+  height:        32px;
+  border-radius: 50%;
+  border:        1px solid var(--border);
+  background:    var(--surface2);
+  color:         var(--text-muted);
+  cursor:        pointer;
+  font-size:     14px;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  transition:    all 0.15s;
+  z-index:       10;
+}
+.btn-close-overlay:hover { border-color: var(--accent2); color: var(--accent2); }
+
+/* ── SCORE ANIMATION ─────────────────────────────────────── */
+.score-bump {
+  animation: scoreBump 0.4s ease;
+}
+
+@keyframes scoreBump {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+/* ── END GAME SCREEN ─────────────────────────────────────── */
+.vt-end {
+  min-height:      calc(100vh - var(--nav-h));
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  padding:         2rem;
+}
+
+.vt-end-inner {
+  text-align:     center;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            1.25rem;
+  max-width:      600px;
+  width:          100%;
+}
+
+.end-trophy {
+  font-size:   5rem;
+  line-height: 1;
+  animation:   trophyBounce 0.6s ease;
+}
+
+@keyframes trophyBounce {
+  0%   { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+  60%  { transform: scale(1.15) rotate(3deg); }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.end-title {
+  font-family:    var(--display);
+  font-size:      clamp(1.8rem, 4vw, 2.8rem);
+  font-weight:    800;
+  color:          var(--text);
+  letter-spacing: -0.02em;
+}
+
+/* Podium */
+.end-podium {
+  display:               grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap:                   0.6rem;
+  width:                 100%;
+}
+
+.podium-card {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       1rem 0.75rem;
+  text-align:    center;
+}
+
+.podium-card.rank-1 {
+  border-color: gold;
+  background:   rgba(255,215,0,0.05);
+}
+.podium-card.rank-2 { border-color: silver; }
+.podium-card.rank-3 { border-color: #cd7f32; }
+
+.podium-rank {
+  font-family: var(--mono);
+  font-size:   11px;
+  color:       var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+.podium-card.rank-1 .podium-rank { color: gold; font-weight: 700; }
+
+.podium-name {
+  font-family:    var(--display);
+  font-size:      1rem;
+  font-weight:    800;
+  color:          var(--text);
+  margin-bottom:  0.15rem;
+}
+
+.podium-score {
+  font-family: var(--display);
+  font-size:   1.4rem;
+  font-weight: 800;
+}
+.podium-card.rank-1 .podium-score { color: gold; }
+
+.vt-end-inner .btn-start,
+.vt-end-inner .btn-ghost {
+  min-width: 160px;
+}

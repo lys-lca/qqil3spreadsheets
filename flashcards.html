@@ -1,0 +1,770 @@
+/*
+ * flashcards.css
+ * ─────────────────────────────────────────────────────────────
+ * LCA ICT — Flashcards page styles.
+ * Requires shared.css for tokens + nav.
+ *
+ * Layout order (game area):
+ *   progress bar
+ *   status row (counter + scores)
+ *   hint row       ← full-width, clearly separate from card
+ *   card           ← display only, no interaction
+ *   flip row       ← single "Reveal answer" button
+ *   action row     ← ✗ Incorrect | ← → | ✓ Correct
+ *   session controls
+ * ─────────────────────────────────────────────────────────────
+ */
+
+/* ── SETUP PANEL ─────────────────────────────────────────── */
+.setup-panel {
+  max-width:      680px;
+  margin:         0 auto 2rem;
+  padding:        1.5rem;
+  background:     var(--surface);
+  border:         1px solid var(--border);
+  border-radius:  var(--radius);
+  display:        flex;
+  flex-direction: column;
+  gap:            1.1rem;
+  width:          calc(100% - 3rem);
+}
+
+.setup-row {
+  display:     flex;
+  gap:         1.25rem;
+  flex-wrap:   wrap;
+  align-items: flex-end;
+}
+
+.setup-row-count {
+  justify-content: space-between;
+  align-items:     center;
+  border-top:      1px solid var(--border);
+  padding-top:     1rem;
+}
+
+.setup-group {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.4rem;
+  flex:           1;
+  min-width:      150px;
+}
+
+.setup-label {
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+}
+
+.select-wrap { position: relative; }
+.select-wrap::after {
+  content:        '▾';
+  position:       absolute;
+  right:          11px;
+  top:            50%;
+  transform:      translateY(-50%);
+  color:          var(--text-muted);
+  pointer-events: none;
+  font-size:      12px;
+}
+
+select {
+  width:         100%;
+  background:    var(--surface2);
+  border:        1px solid var(--border);
+  border-radius: 6px;
+  padding:       0.5rem 2rem 0.5rem 0.8rem;
+  color:         var(--text);
+  font-family:   var(--mono);
+  font-size:     12px;
+  appearance:    none;
+  cursor:        pointer;
+  outline:       none;
+  transition:    border-color 0.2s;
+}
+select:focus { border-color: var(--accent); }
+
+.mode-btns { display: flex; gap: 0.4rem; }
+
+.mode-btn {
+  flex:           1;
+  padding:        0.48rem 0.75rem;
+  border-radius:  6px;
+  border:         1px solid var(--border);
+  background:     transparent;
+  color:          var(--text-muted);
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.05em;
+  cursor:         pointer;
+  transition:     all 0.15s;
+  white-space:    nowrap;
+}
+.mode-btn:hover  { border-color: var(--accent); color: var(--accent); }
+.mode-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+
+.setup-count {
+  font-family: var(--mono);
+  font-size:   12px;
+  color:       var(--text-muted);
+}
+
+/* ── SHARED BUTTONS ──────────────────────────────────────── */
+.btn-start {
+  background:    var(--accent);
+  color:         var(--bg);
+  border:        none;
+  border-radius: 6px;
+  padding:       0.6rem 1.4rem;
+  font-family:   var(--display);
+  font-size:     0.9rem;
+  font-weight:   700;
+  cursor:        pointer;
+  transition:    opacity 0.15s, transform 0.15s;
+  white-space:   nowrap;
+}
+.btn-start:hover    { opacity: 0.87; transform: translateY(-1px); }
+.btn-start:disabled { opacity: 0.35; cursor: default; transform: none; }
+
+.btn-ghost {
+  background:     transparent;
+  border:         1px solid var(--border);
+  color:          var(--text-muted);
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.05em;
+  padding:        0.4rem 1rem;
+  border-radius:  4px;
+  cursor:         pointer;
+  transition:     all 0.15s;
+  white-space:    nowrap;
+}
+.btn-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+
+/* ── GAME AREA ───────────────────────────────────────────── */
+.game-area {
+  max-width: 680px;
+  margin:    0 auto;
+  padding:   0 1.5rem 3rem;
+  width:     100%;
+}
+
+/* Progress bar */
+.progress-wrap {
+  height:        4px;
+  background:    var(--surface2);
+  border-radius: 2px;
+  margin-bottom: 0.85rem;
+  overflow:      hidden;
+}
+.progress-bar {
+  height:        100%;
+  background:    var(--accent);
+  border-radius: 2px;
+  transition:    width 0.35s ease;
+  width:         0%;
+}
+
+/* Status row */
+.status-row {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  margin-bottom:   0.75rem;
+}
+
+.status-counter {
+  font-family: var(--mono);
+  font-size:   13px;
+  color:       var(--text-muted);
+}
+
+.status-scores { display: flex; gap: 1rem; align-items: center; }
+
+.score {
+  font-family: var(--mono);
+  font-size:   12px;
+  display:     flex;
+  align-items: center;
+  gap:         3px;
+}
+.score strong    { font-size: 15px; font-family: var(--display); font-weight: 700; }
+.score-correct   { color: #22c55e; }
+.score-wrong     { color: var(--accent2); }
+.score-hint      { color: var(--accent3); opacity: 0.85; }
+
+/* ── HINT ROW ────────────────────────────────────────────── */
+/*
+ * Full-width row above the card. Clearly separate from the card.
+ * Large touch target — no risk of accidentally triggering anything else.
+ */
+.hint-row {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            0.5rem;
+  margin-bottom:  0.65rem;
+  min-height:     44px; /* always reserves space so card doesn't jump */
+}
+
+.btn-hint {
+  width:          100%;
+  padding:        0.7rem 1rem;
+  background:     var(--surface);
+  border:         1px solid var(--border);
+  border-radius:  var(--radius);
+  color:          var(--text-muted);
+  font-family:    var(--mono);
+  font-size:      12px;
+  letter-spacing: 0.05em;
+  cursor:         pointer;
+  transition:     all 0.15s;
+  text-align:     center;
+}
+.btn-hint:hover          { border-color: var(--accent3); color: var(--accent3); }
+.btn-hint.hint-revealed  { border-color: var(--accent3); color: var(--accent3);
+                           background: rgba(107,140,255,0.06); cursor: default; }
+
+.fc-hint-text {
+  font-family:  var(--sans);
+  font-size:    14px;
+  font-weight:  500;
+  color:        var(--accent3);
+  text-align:   center;
+  width:        100%;
+  padding:      0.5rem 0.75rem;
+  background:   rgba(107,140,255,0.07);
+  border:       1px solid rgba(107,140,255,0.2);
+  border-radius: var(--radius);
+  animation:    fadeUp 0.2s ease;
+}
+
+/* Acronym hint — bigger since it's the full term to memorise */
+.fc-hint-text.hint-acronym {
+  font-family:    var(--display);
+  font-size:      1.1rem;
+  font-weight:    700;
+  color:          var(--accent);
+  background:     rgba(79,255,176,0.07);
+  border-color:   rgba(79,255,176,0.2);
+}
+
+/* ── CARD — display only ─────────────────────────────────── */
+.card-stage {
+  perspective:   1200px;
+  margin-bottom: 0.65rem;
+}
+
+.fc-card {
+  width:       100%;
+  height:      240px;
+  /* no cursor, no pointer events — purely visual */
+  pointer-events: none;
+  user-select:    none;
+}
+
+.fc-inner {
+  width:           100%;
+  height:          100%;
+  position:        relative;
+  transform-style: preserve-3d;
+  transition:      transform 0.48s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius:   var(--radius);
+}
+
+.fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+
+.fc-face {
+  position:            absolute;
+  inset:               0;
+  border-radius:       var(--radius);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display:             flex;
+  flex-direction:      column;
+  align-items:         center;
+  justify-content:     center;
+  padding:             1.5rem 1.75rem;
+  text-align:          center;
+  background:          var(--surface);
+  border:              1px solid var(--border);
+  box-shadow:          var(--shadow);
+  overflow:            hidden;
+}
+
+.fc-back {
+  transform:       rotateY(180deg);
+  background:      var(--surface2);
+  justify-content: flex-start;
+  align-items:     flex-start;
+  text-align:      left;
+  padding:         1.25rem 1.5rem;
+  gap:             0.4rem;
+}
+
+/* ── CATEGORY TAG (top-left) ──────────────────────────────── */
+.fc-category-tag {
+  position:       absolute;
+  top:            0.75rem;
+  left:           0.75rem;
+  font-family:    var(--mono);
+  font-size:      10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding:        2px 8px;
+  border-radius:  3px;
+  border:         1px solid var(--border);
+  color:          var(--text-dim);
+}
+
+/* ── TYPE BADGE (top-right) ───────────────────────────────── */
+.fc-type-badge {
+  position:       absolute;
+  top:            0.75rem;
+  right:          0.75rem;
+  font-family:    var(--mono);
+  font-size:      9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding:        2px 7px;
+  border-radius:  3px;
+}
+.fc-type-badge.type-acronym {
+  color:      var(--accent3);
+  border:     1px solid rgba(107,140,255,0.3);
+  background: rgba(107,140,255,0.08);
+}
+.fc-type-badge.type-concept {
+  color:      var(--text-dim);
+  border:     1px solid var(--border);
+  background: transparent;
+}
+
+/* ── TERM (front) ─────────────────────────────────────────── */
+.fc-term {
+  font-family:    var(--display);
+  font-size:      clamp(1.7rem, 6vw, 2.8rem);
+  font-weight:    800;
+  color:          var(--text);
+  line-height:    1.1;
+  letter-spacing: -0.02em;
+}
+
+/* ── HINT USED DOT (front, bottom-left) ──────────────────── */
+.fc-hint-dot {
+  position:       absolute;
+  bottom:         0.65rem;
+  left:           0.75rem;
+  font-family:    var(--mono);
+  font-size:      9.5px;
+  color:          var(--accent3);
+  opacity:        0.75;
+  letter-spacing: 0.03em;
+}
+
+/* ── MARKED STATES ────────────────────────────────────────── */
+.fc-card.marked-correct .fc-face.fc-front {
+  border-color: rgba(34,197,94,0.45);
+  box-shadow:   0 0 0 2px rgba(34,197,94,0.12), var(--shadow);
+}
+.fc-card.marked-wrong .fc-face.fc-front {
+  border-color: rgba(239,68,68,0.4);
+  box-shadow:   0 0 0 2px rgba(239,68,68,0.1), var(--shadow);
+}
+
+/* ── BACK FACE CONTENT ────────────────────────────────────── */
+.fc-back-term {
+  font-family:    var(--display);
+  font-size:      1rem;
+  font-weight:    700;
+  color:          var(--accent);
+  letter-spacing: -0.01em;
+  flex-shrink:    0;
+}
+
+.fc-def {
+  font-family:  var(--sans);
+  font-size:    13.5px;
+  color:        var(--text);
+  line-height:  1.6;
+  font-weight:  300;
+  overflow-y:   auto;
+  width:        100%;
+  flex:         1;
+}
+
+/* ── FLIP ROW ────────────────────────────────────────────── */
+/*
+ * Large, obvious button below the card.
+ * Changes label once flipped.
+ */
+.flip-row {
+  margin-bottom: 0.75rem;
+}
+
+.btn-flip {
+  width:          100%;
+  padding:        0.85rem 1rem;
+  background:     var(--surface2);
+  border:         1px solid var(--border);
+  border-radius:  var(--radius);
+  color:          var(--text);
+  font-family:    var(--display);
+  font-size:      1rem;
+  font-weight:    700;
+  cursor:         pointer;
+  transition:     all 0.15s;
+  letter-spacing: -0.01em;
+}
+.btn-flip:hover { background: var(--surface); border-color: var(--accent3); color: var(--accent3); }
+
+/* Once flipped, flip button shows "Hide answer ↑" in a subtler style */
+.btn-flip.is-flipped {
+  color:        var(--text-muted);
+  font-weight:  400;
+  font-family:  var(--mono);
+  font-size:    11px;
+  letter-spacing: 0.05em;
+  background:   transparent;
+  border-color: var(--border);
+}
+.btn-flip.is-flipped:hover { border-color: var(--text-muted); color: var(--text); }
+
+/* ── ACTION BUTTONS ──────────────────────────────────────── */
+.action-row {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             0.65rem;
+  margin-bottom:   0.85rem;
+}
+
+.btn-action {
+  flex:           1;
+  padding:        0.7rem 0.85rem;
+  border-radius:  6px;
+  border:         2px solid transparent;
+  font-family:    var(--display);
+  font-size:      0.88rem;
+  font-weight:    700;
+  cursor:         pointer;
+  transition:     all 0.15s;
+  letter-spacing: -0.01em;
+}
+
+/* Disabled state — waiting for card to be revealed */
+.btn-action:disabled {
+  opacity:       0.3;
+  cursor:        default;
+  transform:     none !important;
+}
+
+.btn-correct {
+  background:   rgba(34,197,94,0.1);
+  color:        #22c55e;
+  border-color: rgba(34,197,94,0.28);
+}
+.btn-correct:not(:disabled):hover {
+  background:   rgba(34,197,94,0.18);
+  border-color: #22c55e;
+  transform:    translateY(-1px);
+}
+
+.btn-wrong {
+  background:   rgba(239,68,68,0.09);
+  color:        #ef4444;
+  border-color: rgba(239,68,68,0.24);
+}
+.btn-wrong:not(:disabled):hover {
+  background:   rgba(239,68,68,0.17);
+  border-color: #ef4444;
+  transform:    translateY(-1px);
+}
+
+.nav-btns { display: flex; gap: 0.35rem; }
+
+.btn-nav {
+  width:           42px;
+  height:          42px;
+  border-radius:   6px;
+  border:          1px solid var(--border);
+  background:      var(--surface);
+  color:           var(--text-muted);
+  font-size:       17px;
+  cursor:          pointer;
+  transition:      all 0.15s;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+}
+.btn-nav:hover    { border-color: var(--accent3); color: var(--accent3); }
+.btn-nav:disabled { opacity: 0.22; cursor: default; }
+
+/* ── SESSION CONTROLS ────────────────────────────────────── */
+.session-controls {
+  display:         flex;
+  justify-content: center;
+  gap:             0.85rem;
+}
+
+/* ── REVIEW PANEL ────────────────────────────────────────── */
+.review-panel {
+  max-width: 680px;
+  margin:    0 auto;
+  padding:   0 1.5rem 3rem;
+  width:     100%;
+}
+
+.review-header {
+  text-align:    center;
+  margin-bottom: 1.75rem;
+  padding:       1.75rem;
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.review-title {
+  font-family:    var(--display);
+  font-size:      1.8rem;
+  font-weight:    800;
+  color:          var(--text);
+  margin-bottom:  0.85rem;
+}
+
+.review-stats {
+  display:         flex;
+  gap:             1.5rem;
+  justify-content: center;
+  flex-wrap:       wrap;
+}
+
+.stat-item {
+  font-family: var(--mono);
+  font-size:   12px;
+  color:       var(--text-muted);
+  text-align:  center;
+}
+.stat-item strong {
+  display:       block;
+  font-family:   var(--display);
+  font-size:     1.9rem;
+  font-weight:   800;
+  line-height:   1;
+  margin-bottom: 3px;
+}
+.stat-correct strong { color: #22c55e; }
+.stat-wrong   strong { color: #ef4444; }
+.stat-hints   strong { color: var(--accent3); }
+.stat-pct     strong { color: var(--accent); }
+
+.review-section-title {
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color:          var(--text-muted);
+  margin-bottom:  0.85rem;
+  display:        flex;
+  align-items:    center;
+  gap:            0.5rem;
+}
+
+.review-badge {
+  padding:       2px 8px;
+  border-radius: 3px;
+  font-size:     10px;
+}
+.review-badge-wrong {
+  background:   rgba(239,68,68,0.1);
+  color:        #ef4444;
+  border:       1px solid rgba(239,68,68,0.25);
+}
+
+.review-cards {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.65rem;
+  margin-bottom:  1.75rem;
+}
+
+.review-card {
+  background:    var(--surface);
+  border:        1px solid rgba(239,68,68,0.18);
+  border-left:   3px solid #ef4444;
+  border-radius: var(--radius);
+  padding:       1rem 1.2rem;
+}
+.review-card.hint-used { border-left-color: #f97316; }
+
+.review-card-header {
+  display:         flex;
+  align-items:     flex-start;
+  justify-content: space-between;
+  gap:             0.5rem;
+  margin-bottom:   0.4rem;
+}
+
+.review-card-term {
+  font-family:    var(--display);
+  font-size:      1rem;
+  font-weight:    700;
+  color:          var(--text);
+  letter-spacing: -0.01em;
+}
+
+.review-card-meta {
+  display:     flex;
+  align-items: center;
+  gap:         0.4rem;
+  flex-shrink: 0;
+}
+
+.review-card-abbr {
+  font-family:   var(--mono);
+  font-size:     10px;
+  color:         var(--accent);
+  background:    rgba(79,255,176,0.08);
+  border:        1px solid rgba(79,255,176,0.2);
+  padding:       1px 6px;
+  border-radius: 3px;
+}
+
+.review-hint-flag {
+  font-family:   var(--mono);
+  font-size:     9.5px;
+  color:         var(--accent3);
+  background:    rgba(107,140,255,0.1);
+  border:        1px solid rgba(107,140,255,0.2);
+  padding:       1px 6px;
+  border-radius: 3px;
+  white-space:   nowrap;
+}
+
+.review-card-def {
+  font-size:   13px;
+  color:       var(--text-muted);
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+.review-actions {
+  display:         flex;
+  gap:             0.65rem;
+  flex-wrap:       wrap;
+  justify-content: center;
+}
+
+.btn-print {
+  background:     transparent;
+  border:         1px solid var(--border);
+  color:          var(--text-muted);
+  font-family:    var(--mono);
+  font-size:      11px;
+  letter-spacing: 0.05em;
+  padding:        0.48rem 1.1rem;
+  border-radius:  4px;
+  cursor:         pointer;
+  transition:     all 0.15s;
+  white-space:    nowrap;
+}
+.btn-print:hover    { border-color: var(--accent3); color: var(--accent3); }
+.btn-print:disabled { opacity: 0.3; cursor: default; }
+
+/* ── PRINT STYLES ────────────────────────────────────────── */
+.print-area { display: none; }
+
+@media print {
+  body > *:not(.print-area) { display: none !important; }
+
+  .print-area {
+    display:    block !important;
+    padding:    1.2cm;
+    font-family: 'IBM Plex Sans', Georgia, serif;
+    color:      #000;
+  }
+
+  .print-title {
+    font-family:   'Syne', Arial, sans-serif;
+    font-size:     20pt;
+    font-weight:   800;
+    margin-bottom: 0.3cm;
+  }
+
+  .print-subtitle {
+    font-size:     8.5pt;
+    color:         #555;
+    margin-bottom: 0.8cm;
+    font-family:   'IBM Plex Mono', monospace;
+  }
+
+  .print-cards {
+    display:               grid;
+    grid-template-columns: 1fr 1fr;
+    gap:                   0.4cm;
+  }
+
+  .print-card {
+    border:        0.75pt solid #ccc;
+    border-radius: 3pt;
+    padding:       0.4cm 0.45cm;
+    break-inside:  avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-card.hint-used { border-left: 2.5pt solid #f97316; }
+
+  .print-card-term {
+    font-family:   'Syne', Arial, sans-serif;
+    font-size:     10.5pt;
+    font-weight:   800;
+    margin-bottom: 0.1cm;
+  }
+
+  .print-card-abbr {
+    font-family:   'IBM Plex Mono', monospace;
+    font-size:     8pt;
+    color:         #444;
+    margin-bottom: 0.12cm;
+  }
+
+  .print-card-hint-used {
+    font-size:     7.5pt;
+    color:         #e07010;
+    font-style:    italic;
+    margin-bottom: 0.1cm;
+  }
+
+  .print-card-def {
+    font-size:   8.5pt;
+    color:       #333;
+    line-height: 1.4;
+  }
+}
+
+/* ── ANIMATIONS ──────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: scale(0.97) translateY(6px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.fc-card { animation: cardIn 0.22s ease; }
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 500px) {
+  .fc-card     { height: 210px; }
+  .fc-term     { font-size: 1.5rem; }
+  .btn-action  { font-size: 0.78rem; padding: 0.6rem 0.4rem; }
+  .btn-nav     { width: 38px; height: 38px; font-size: 15px; }
+  .setup-panel { width: calc(100% - 2rem); }
+  .print-cards { grid-template-columns: 1fr; }
+  .review-stats { gap: 1rem; }
+}

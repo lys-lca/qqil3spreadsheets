@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LCA ICT — Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared.css">
+  <link rel="stylesheet" href="quiz.css">
+  <script>
+    (function(){
+      const t = localStorage.getItem('lca-ict-theme');
+      const d = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', t ?? (d ? 'dark' : 'light'));
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav class="site-nav" id="site-nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html"><span class="nav-brand-ict">LCA</span> ICT</a>
+      <div class="nav-links" id="nav-links">
+        <a href="glossary.html"    class="nav-link">Glossary</a>
+        <a href="flashcards.html"  class="nav-link">Flashcards</a>
+        <a href="wordsearch.html"  class="nav-link">Wordsearch</a>
+        <a href="memory.html"      class="nav-link">Memory</a>
+        <a href="quiz.html"        class="nav-link active">Quiz</a>
+        <a href="vteam.html"       class="nav-link">V-Team</a>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <span class="icon-dark">☀</span>
+        <span class="icon-light">☾</span>
+      </button>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- ── PAGE HEADER ── -->
+  <header class="page-header">
+    <p class="page-label">Leaving Certificate Applied · ICT</p>
+    <h1 class="page-title">Fill the <span>Blanks</span></h1>
+    <p class="page-sub">Place the correct word into each blank. Fill all ten, then check your answers.</p>
+  </header>
+
+  <!-- ── SETUP PANEL ── -->
+  <section class="setup-panel" id="setup-panel">
+    <div class="setup-body">
+      <div class="setup-info">
+        <p class="setup-desc">
+          Ten definitions appear with one key word missing from each.
+          The missing words are shown in the word bank below each question.
+          Click a word to select it, then click a blank to place it.
+          Click a placed word to return it to the bank.
+          Fill every blank before checking.
+        </p>
+      </div>
+    </div>
+    <div class="setup-footer">
+      <button class="btn-start" id="btn-start">Start Quiz →</button>
+    </div>
+  </section>
+
+  <!-- ── QUIZ AREA ── -->
+  <section class="quiz-area hidden" id="quiz-area">
+
+    <div class="quiz-topbar">
+      <div class="quiz-progress">
+        <span id="filled-count">0</span> / <span id="total-q">10</span> filled
+      </div>
+      <button class="btn-check hidden" id="btn-check">Check Answers ✓</button>
+      <button class="btn-ghost" id="btn-new-quiz">⊞ New Quiz</button>
+    </div>
+
+    <!-- Word bank -->
+    <div class="word-bank-wrap">
+      <div class="word-bank-label">Word Bank</div>
+      <div class="word-bank" id="word-bank"></div>
+    </div>
+
+    <!-- Questions -->
+    <ol class="questions-list" id="questions-list"></ol>
+
+  </section>
+
+  <!-- ── RESULTS PANEL ── -->
+  <section class="results-panel hidden" id="results-panel">
+
+    <div class="results-header">
+      <h2 class="results-title">Results</h2>
+      <div class="results-stats" id="results-stats"></div>
+    </div>
+
+    <div class="results-summary" id="results-summary"></div>
+
+    <div class="results-actions">
+      <button class="btn-start"  id="btn-try-again">Try Again</button>
+      <button class="btn-ghost"  id="btn-new-quiz-results">New Quiz</button>
+    </div>
+
+  </section>
+
+  <script src="glossary-data.js"></script>
+  <script src="shared.js"></script>
+  <script src="quiz.js"></script>
+</body>
+</html>
